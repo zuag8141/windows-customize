@@ -1,0 +1,475 @@
+watch_stylesheet: true
+watch_config: true
+debug: false
+
+komorebi:
+  start_command: "komorebic start --whkd"
+  stop_command: "komorebic stop"
+  reload_command: "komorebic stop && komorebic start --whkd"
+
+bars:
+  cava-bar:
+    enabled: true
+    screens: ['*'] 
+    class_name: "yasb-bar"
+    alignment:
+      position: "bottom"
+      align: "left"
+      center: false
+    blur_effect:
+      enabled: false
+      acrylic: false
+      dark_mode: true
+      round_corners: false
+      border_color: None
+    window_flags:
+      always_on_top: false
+      windows_app_bar: true
+    dimensions:
+      width: 100%
+      height: 45
+    padding:
+      top: 0
+      left: 0
+      bottom: 0
+      right: 0
+    widgets:
+      center: ["cava"]
+
+  right-bar:
+    enabled: true
+    screens: ['*'] 
+    class_name: "yasb-bar"
+    alignment:
+      position: "bottom"
+      align: "right"
+      center: false
+    blur_effect:
+      enabled: false
+      acrylic: false
+      dark_mode: true
+      round_corners: true
+      border_color: None
+    window_flags:
+      always_on_top: false
+      windows_app_bar: true
+    dimensions:
+      width: 100%
+      height: 45
+    padding:
+      top: 0
+      left: 0
+      bottom: 0
+      right: 0
+    widgets:
+      left:
+        [
+          "power_menu",
+          "wallpapers",
+          "notes",
+          "komorebi_control",
+          "komorebi_workspaces",
+        ]
+      center: 
+        [
+          "clock",
+          ]
+      right:
+        [
+          "grouped_widgets",
+          "media",
+          "brightness",
+          "volume",
+          # "github",
+        ]
+widgets:
+  cava:
+    type: "yasb.cava.CavaWidget"
+    options:
+      bar_height: 45
+      min_bar_height: 1
+      gradient: 1
+      foreground: "#a8d08d"
+      gradient_color_1: '#e6db82'  
+      gradient_color_2: '#c4d679' 
+      gradient_color_3: '#a8d08d'  
+      bars_number: 120
+      bar_spacing: 2
+      bar_width: 14
+      bar_type: "bars"
+      framerate: 180
+      hide_empty: false
+  komorebi_control:
+    type: "komorebi.control.KomorebiControlWidget"
+    options:
+      label: "<span>\udb80\uddd9</span>"
+      icons:
+        start: "\uead3"
+        stop: "\uead7"
+        reload: "\uead2"
+      run_ahk: false
+      run_whkd: false
+      run_masir: false
+      show_version: true
+      komorebi_menu:
+        blur: true
+        round_corners: true
+        round_corners_type: 'normal'
+        border_color: 'System'
+        alignment: 'left'
+        direction: 'up'
+        offset_top: 6
+        offset_left: 0
+      label_shadow:
+        enabled: true
+        color: "black"
+        radius: 3
+        offset: [ 1, 1 ]
+  komorebi_workspaces:
+    type: "komorebi.workspaces.WorkspaceWidget"
+    options:
+      label_offline: "Komorebi Offline"
+      label_workspace_btn: "\udb81\udc3d"
+      label_workspace_active_btn: "\udb81\udc3e"
+      label_workspace_populated_btn: "\udb81\udc3e"
+      label_default_name: ""
+      label_zero_index: false
+      hide_empty_workspaces: false
+      hide_if_offline: true
+      animation: true
+      toggle_workspace_layer:
+        enabled: false
+        tiling_label: "Tiling"
+        floating_label: "Floating"
+      app_icons: 
+        enabled_populated: false
+        enabled_active: false
+        size: 12
+        max_icons: 0
+        hide_label: false
+        hide_duplicates: false
+        hide_floating: false
+      btn_shadow:
+        enabled: true
+        color: "black"
+        radius: 3
+        offset: [ 1, 1 ]
+  notes:
+    type: "yasb.notes.NotesWidget"
+    options:
+      label: "<span>\udb82\udd0c</span> {count}"
+      label_alt: "{count} notes"
+      menu:
+        blur: true
+        round_corners: true
+        round_corners_type: "normal"
+        border_color: "System"
+        alignment: "right"
+        direction: "up"
+        offset_top: 6
+        offset_left: 0
+        max_title_size: 150
+        show_date_time: true
+      icons:
+        note: "\udb82\udd0c"
+        delete: "\ueab8"
+        copy: "\uebcc"
+      callbacks:
+        on_left: "toggle_menu"
+        on_middle: "do_nothing"
+        on_right: "toggle_label"
+      label_shadow:
+        enabled: true
+        color: "black"
+        radius: 3
+        offset: [ 1, 1 ]
+  memory:
+    type: "yasb.memory.MemoryWidget"
+    options:
+      label: "MEM"
+      label_alt: "VIRT: {virtual_mem_percent}% SWAP: {swap_mem_percent}%"
+      update_interval: 5000
+      progress_bar:
+        enabled: true
+        size: 14
+        thickness: 2
+        color: "#91d7e3"
+        background_color: "#242739" 
+      callbacks:
+        on_left: "toggle_label"
+      memory_thresholds:
+        low: 25
+        medium: 50
+        high: 90
+  cpu:
+    type: "yasb.cpu.CpuWidget"
+    options:
+      label: "CPU"
+      label_alt: "CPU {info[percent][total]:.0f}%"
+      progress_bar:
+        enabled: true
+        position: "left"
+        size: 14
+        thickness: 2
+        color: "#91d7e3"
+        background_color: "#242739" 
+      update_interval: 2000
+      callbacks:
+        on_right: "do_nothing"
+  grouped_widgets:
+    type: "yasb.grouper.GrouperWidget"
+    options:
+      class_name: "grouped-widgets"
+      widgets: [
+        "memory",
+        "cpu",
+        "weather",
+      ]
+      container_padding:
+        top: 0
+        left: 2
+        bottom: 0
+        right: 6
+  github:
+    type: "yasb.github.GithubWidget"
+    options:
+      label: "<span>\ueba1</span>"
+      label_alt: "Notifications {data}"
+      token: ghp_xxxxxxxxxxxxxxxxxxxxxx # GitHub Personal access tokens (classic) https://github.com/settings/tokens
+      max_notification: 50
+      notification_dot:
+        enabled: True
+        corner: "bottom_left"
+        color: "red"
+        margin: [ 1, 1 ]
+      only_unread: false
+      show_comment_count: false
+      reason_filters: []
+      max_field_size: 54
+      update_interval: 300
+      menu:
+        blur: True
+        round_corners: True
+        round_corners_type: "normal"
+        border_color: "System"
+        alignment: "right"
+        direction: "up"
+        show_categories: false
+        categories_order: ["PullRequest", "Issue", "CheckSuite", "Release", "Discussion"]
+      label_shadow:
+        enabled: True
+        color: "black"
+        radius: 3
+        offset: [ 1, 1 ]
+  media:
+    type: "yasb.media.MediaWidget"
+    options:
+      label: "<span>\uf001</span> {title}"
+      label_alt: "<span>\udb80\udf87</span> {title}"
+      hide_empty: true
+      callbacks:
+        on_left: "toggle_media_menu"
+        on_middle: "do_nothing"
+        on_right: "toggle_label"
+      max_field_size:
+        label: 40
+        label_alt: 80
+      show_thumbnail: true
+      controls_only: false
+      controls_left: false
+      thumbnail_alpha: 80
+      thumbnail_padding: 0
+      thumbnail_corner_radius: 8
+      thumbnail_edge_fade: true
+      scrolling_label:
+        enabled: false
+        update_interval_ms: 100
+        style: "right"  # can be "left", "right", "bounce", "bounce-ease"
+        separator: " | "
+        label_padding: 0
+        # Easing curve params: https://www.desmos.com/calculator/j7eamemxzi
+        ease_slope: 20
+        ease_pos: 0.8
+        ease_min: 0.5
+      icons:
+        prev_track: "\uf048"
+        next_track: "\uf051"
+        play: "\uf04b"
+        pause: "\uf04d"
+      media_menu:
+        blur: true
+        round_corners: true
+        round_corners_type: "small"
+        border_color: "system"
+        alignment: "right"
+        direction: "up"
+        offset_top: 6
+        offset_left: 0
+        thumbnail_corner_radius: 4
+        thumbnail_size: 80
+        max_title_size: 80
+        max_artist_size: 20
+        show_source: true
+      media_menu_icons:
+        play: "\uf04b"
+        pause: "\uf04c"
+        prev_track: "\uf048"
+        next_track: "\uf051"
+      label_shadow:
+        enabled: false
+        color: "black"
+        radius: 1
+        offset: [ 1, 1 ]
+  clock:
+    type: "yasb.clock.ClockWidget"
+    options:
+      label: "{%a, %d %b - %H:%M}"
+      label_alt: "{%A, %d %B %Y - %H:%M}"
+      timezones: []
+      update_interval: 1000
+      calendar:
+        alignment: "center"
+        blur: True
+        round_corners: True
+        round_corners_type: "small"
+        border_color: "System"
+        direction: "up"
+        show_holidays: true
+        show_week_numbers: False
+        holiday_color: "#ff9f00"
+      callbacks:
+        on_left: "toggle_calendar"
+        on_middle: "do_nothing"
+        on_right: "toggle_label"
+      label_shadow:
+        enabled: false
+        color: "black"
+        radius: 1
+        offset: [ 1, 1 ]
+  weather:
+    type: "yasb.weather.WeatherWidget"
+    options:
+      label: "<span>{icon}</span> {temp}" #  - {location}
+      label_alt: "<span>{icon}</span> {location}: {conditions}, {temp}" # Min {min_temp}, Max {max_temp}, Humidity {humidity}"
+      api_key: "0cbcf8a31b4b48649b6184438262401" # Get your free API key from https://www.weatherapi.com/
+      update_interval: 300
+      hide_decimal: true
+      location: "Thu Duc" # You can use "USA Los Angeles 90006" {COUNTRY CITY ZIP_CODE}, or just city.
+      units: "metric" # Can be 'metric' or 'imperial'
+      callbacks:
+        on_left: "toggle_card"
+        on_right: "toggle_label"
+      icons:
+        sunnyDay: "\udb81\udd99"
+        clearNight: "\ue3c2"
+        cloudyDay: "\ue21d"
+        cloudyNight: "\ue226"
+        rainyDay: "\ue371"
+        rainyNight: "\ue371"
+        snowyIcyDay: "\udb81\udf17"
+        snowyIcyNight: "\udb81\udf17"
+        blizzardDay: "\udb81\udd99"
+        default: "\udb81\udd99"
+      weather_card:
+        show_hourly_forecast: true
+        blur: true
+        round_corners: true
+        round_corners_type: "small"
+        border_color: "system"
+        alignment: "center"
+        direction: "up"
+        offset_top: 6
+        icon_size: 48
+      label_shadow:
+        enabled: false
+        color: "black"
+        radius: 1
+        offset: [ 1, 1 ]
+  volume:
+      type: "yasb.volume.VolumeWidget"
+      options:
+        label: "{level}"
+        label_alt: "{volume}"
+        scroll_step: 5
+        progress_bar:
+          enabled: true
+          position: "left"
+          size: 14
+          thickness: 3
+          color: "#91d7e3"
+          background_color: "#242739" 
+        callbacks:
+          on_right: "exec cmd.exe /c start ms-settings:sound"
+  power_menu:
+      type: "yasb.power_menu.PowerMenuWidget"
+      options:
+        label: "\uf011"
+        uptime: True
+        blur: True
+        blur_background: True
+        animation_duration: 250 # Milisecond 
+        button_row: 5 # Number of buttons in row, min 1 max 5
+        buttons:
+          shutdown: ["\uf011","Shut Down"]
+          restart: ["\uead2","Restart"]
+          signout: ["\udb80\udf43","Sign out"]
+          cancel: ["\udb81\udf3a","Cancel"]
+  wallpapers:
+    type: "yasb.wallpapers.WallpapersWidget"
+    options:
+      label: "<span>\udb83\ude09</span>"
+      # Example path to folder with images. Can be a single string or a list of strings.
+      # image_path: "C:\\Users\\{Username}\\Images" 
+      image_path: 
+        - "C:\\Users\\trant\\Pictures\\Wallpaper"
+      change_automatically: false # Automatically change wallpaper
+      update_interval: 60 # If change_automatically is true, update interval in seconds
+      gallery:
+          enabled: true
+          blur: true
+          image_width: 220
+          image_per_page: 6
+          gallery_columns: 0 # 0 = auto, matches image_per_page for a single row
+          horizontal_position: "center" # left/center/right placement on screen
+          vertical_position: "center" # top/center/bottom placement
+          position_offset: 0 # minimum gap (px) from screen edges - see below for advanced options
+          respect_work_area: true # clamp to OS work area (avoids Windows taskbar)
+          show_buttons: true
+          orientation: "portrait"
+          image_spacing: 10
+          lazy_load: true
+          lazy_load_fadein: 200
+          image_corner_radius: 15
+      run_after: # List of functions to run after wallpaper is updated
+        - "wal -s -t -e -q -n -i {image}" # Example command to run after wallpaper is updated
+        - "cmd.exe /c start /min pwsh ./yasb.ps1" # Example command to run after wallpaper is updated
+      label_shadow:
+        enabled: true
+        color: "black"
+        radius: 3
+        offset: [ 1, 1 ]
+      callbacks:
+        on_left: "toggle_gallery"
+        on_middle: "do_nothing"
+        on_right: "change_wallpaper"
+  brightness:
+    type: "yasb.brightness.BrightnessWidget"
+    options:
+      label: "{percent}%"
+      label_alt: "Brightness {percent}%"
+      scroll_step: 5
+      progress_bar:
+        enabled: true
+        position: "left"
+        size: 14
+        thickness: 3
+        color: "#91d7e3"
+        background_color: "#242739"
+      callbacks:
+        on_left: "toggle_label"
+        on_right: "exec cmd.exe /c start ms-settings:display"
+      label_shadow:
+        enabled: true
+        color: "black"
+        radius: 3
+        offset: [ 1, 1 ]
